@@ -27,5 +27,5 @@
 		exit;
 	}
 
-	
+	dol_include_once('/doccreator/class/doccreator.class.php');
 
