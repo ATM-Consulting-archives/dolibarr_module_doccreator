@@ -89,6 +89,7 @@ class moddocCreator extends DolibarrModules
 		//                        );
 		$this->module_parts = array(
 			'models'=>1
+			,'hooks'=>array('formfile')
 		);
 
 		// Data directories to create when module is enabled.

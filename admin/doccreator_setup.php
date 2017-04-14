@@ -28,6 +28,8 @@ if (! $res) {
     $res = @include("../../../main.inc.php"); // From "custom" directory
 }
 
+dol_include_once('/doccreator/class/doccreator.class.php');
+$langs->load("doccreator@doccreator");
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 require_once '../lib/doccreator.lib.php';
@@ -100,13 +102,27 @@ $form=new Form($db);
 $var=false;
 print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
-print '<td>'.$langs->trans("Parameters").'</td>'."\n";
-print '<td align="center" width="20">&nbsp;</td>';
-print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
+print '<td>'.$langs->trans("Invoice").'</td>'."\n";
+print '<td align="center" width="100">'.$langs->trans('Orientation').'</td>';
+print '</tr>';
+
+$TList =  DocCreator::getModelList('invoice');
+
+foreach($TList['files'] as $file) {
+
+	$var=!$var;
+	print '<tr '.$bc[$var].'>';
+	print '<td><a href="editor.php?module=invoice&model='.$file['name'].'">'.$file['title'].'</a></td>';
+	print '<td align="center">'.$file['orientation'].'</td>';
+	print '</tr>';
+	
+}
+
+print '</table>';
 
 
 // Example with a yes / no select
-$var=!$var;
+/*$var=!$var;
 print '<tr '.$bc[$var].'>';
 print '<td>'.$langs->trans("ParamLabel").'</td>';
 print '<td align="center" width="20">&nbsp;</td>';
@@ -118,8 +134,8 @@ print $form->selectyesno("CONSTNAME",$conf->global->CONSTNAME,1);
 print '<input type="submit" class="button" value="'.$langs->trans("Modify").'">';
 print '</form>';
 print '</td></tr>';
+*/
 
-print '</table>';
 
 llxFooter();
 

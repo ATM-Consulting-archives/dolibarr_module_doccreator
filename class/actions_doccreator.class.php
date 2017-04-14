@@ -59,24 +59,44 @@ class ActionsdocCreator
 	 * @param   HookManager     $hookmanager    Hook manager propagated to allow calling another hook
 	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
 	 */
-	function doActions($parameters, &$object, &$action, $hookmanager)
+	function formBuilddocOptions($parameters, &$object, &$action, $hookmanager)
 	{
 		$error = 0; // Error counter
-		$myvalue = 'test'; // A result value
+		//$myvalue = 'test'; // A result value
 
-		print_r($parameters);
-		echo "action: " . $action;
-		print_r($object);
-
-		if (in_array('somecontext', explode(':', $parameters['context'])))
+		$TContext = explode(':',$parameters['context']);
+		
+		if (in_array('invoicecard', $TContext))
 		{
 		  // do something only for the context 'somecontext'
+		  
+			global $langs;
+			
+			define('INC_FROM_DOLIBARR',true);
+			dol_include_once('/doccreator/config.php');
+			dol_include_once('/doccreator/class/doccreator.class.php');
+			
+			$Tab=array();
+			$TList =  DocCreator::getModelList('invoice');
+			
+			$langs->load("doccreator@doccreator");
+			
+			$out = '<tr class="pair"><td>'.$langs->trans('SelectDDModel').'</td><td></td><td></td><td>';
+			foreach($TList['files'] as &$file) {
+				$Tab[$file['name']] = $file['title'];				
+			}
+			
+			$formCore=new TFormCore();
+			$out.=$formCore->combo('', 'doccreator_model', $Tab, -1);
+			
+			$out.='</td></tr>';
+			
 		}
 
 		if (! $error)
 		{
-			$this->results = array('myreturn' => $myvalue);
-			$this->resprints = 'A text to show';
+			//$this->results = array('myreturn' => $myvalue);
+			$this->resprints = $out;
 			return 0; // or return 1 to replace standard code
 		}
 		else

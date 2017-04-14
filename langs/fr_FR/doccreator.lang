@@ -5,3 +5,8 @@ ATMAbout = Ce module a été développé par <a href="http://www.atm-consulting.
 
 docCreatorSetup = Configuration du module docCreator
 docCreatorAbout = A propos du module docCreator
+
+GenerateTestPDF=Voir un PDF de test
+Editor=Editeur
+Title=Titre
+SelectDDModel=Sélectionner le sous-modèle

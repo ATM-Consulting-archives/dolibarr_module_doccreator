@@ -187,21 +187,13 @@ class pdf_crabe_doccreator extends ModelePDFFactures
 		
 		
 		try {
-			$model = 'facture1.html';
+			$model = GETPOST('doccreator_model');
 			$module = 'invoice';
 			
 			$filename = DOL_DATA_ROOT.'/doccreator/'.$module.'/'.$model; //TODO secure access
 			$fileparam = DOL_DATA_ROOT.'/doccreator/'.$module.'/param.json';
 			$TParam = unserialize(file_get_contents($fileparam));
 	
-	      /*  $wkhtmltopdf = new Wkhtmltopdf(array('path' => sys_get_temp_dir()));
-			
-	        $wkhtmltopdf->setTitle($object->ref);
-			$wkhtmltopdf->setOrientation($TParam[$file]['orientation']); //TODO config
-	        $wkhtmltopdf->setUrl($filename);
-			$wkhtmltopdf->_bin = !empty($conf->global->ABRICOT_WKHTMLTOPDF_CMD) ? $conf->global->ABRICOT_WKHTMLTOPDF_CMD : 'wkhtmltopdf';
-	        $wkhtmltopdf->output(Wkhtmltopdf::MODE_SAVE,$file);
-*/
 			DocCreator::convertField($object);
 			
 			$TBS=new TTemplateTBS;
@@ -209,6 +201,7 @@ class pdf_crabe_doccreator extends ModelePDFFactures
 				'outFile'=>$file
 				,'convertToPDF'=>true
 				,'deleteSrc'=>true
+				,'wkOptions'=>array('encoding'=>'utf-8')
 			));
 
 			$hookmanager->initHooks(array('pdfgeneration'));

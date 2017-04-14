@@ -1,9 +1,9 @@
 <?php
 
-	require 'config.php';
+	require '../config.php';
 
-	$model = 'facture1.html';
-	$module = 'invoice';
+	$model = GETPOST('model');
+	$module = GETPOST('module');
 	
 	$bodyhtml = GETPOST('bodyhtml');
 	$action = GETPOST('action');
@@ -62,9 +62,22 @@
 	
 	$html = file_get_contents($filename);
 	
+	require_once '../lib/doccreator.lib.php';
 	
+	// Translations
+	$langs->load("doccreator@doccreator");
 	
 	llxHeader();
+	
+	$head = doccreatorAdminPrepareHead(true);
+	dol_fiche_head(
+			$head,
+			'editor',
+			$langs->trans("Module104035Name"),
+			0,
+			"doccreator@doccreator"
+			);
+	
 	
 	$formCore=new TFormCore('auto','formEdit','post');
 	echo $formCore->hidden('action', 'save');
@@ -75,8 +88,12 @@
 	
 	echo $formCore->zonetexte('', 'bodyhtml', $html, 100,20);
 	
-	echo $formCore->btsubmit($langs->trans('Save'), 'bt_save');
-	echo $formCore->btsubmit($langs->trans('GenerateTestPDF'), 'bt_generate');
+	echo '<div class="tabsAction">';
+	
+		echo $formCore->btsubmit($langs->trans('Save'), 'bt_save');
+		echo $formCore->btsubmit($langs->trans('GenerateTestPDF'), 'bt_generate');
+		
+	echo '</div>';
 	
 	$formCore->end();
 	
@@ -97,7 +114,7 @@
         		toolbar: 'dolibarr_notes',
 				toolbarStartupExpanded: true,
 				width: '',
-				height: 400,
+				height: '1000',
                 skin: 'moono',
                 language: 'fr_FR',
                 textDirection: 'ltr',
@@ -124,6 +141,8 @@
 	</script>
 <?php
 	
+	dol_fiche_end();
+
 	llxFooter();	
 	
 	

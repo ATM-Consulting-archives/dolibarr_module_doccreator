@@ -23,7 +23,7 @@
  *				Put some comments here
  */
 
-function doccreatorAdminPrepareHead()
+function doccreatorAdminPrepareHead($withEditor=false)
 {
     global $langs, $conf;
 
@@ -41,6 +41,15 @@ function doccreatorAdminPrepareHead()
     $head[$h][2] = 'about';
     $h++;
 
+    if($withEditor) {
+    	
+    	$head[$h][0] ='#';
+    	$head[$h][1] = $langs->trans("Editor");
+    	$head[$h][2] = 'editor';
+    	$h++;
+    	
+    }
+    
     // Show more tabs from modules
     // Entries must be declared in modules descriptor with line
     //$this->tabs = array(
