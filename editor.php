@@ -15,15 +15,28 @@
 	
 	if(GETPOST('bt_generate')!='') {
 		
+		$file = basename($filename);
+		
 		try {
 			
-	        $wkhtmltopdf = new Wkhtmltopdf(array('path' => sys_get_temp_dir()));
+			$wkhtmltopdf = new Wkhtmltopdf(array(
+					'path' => sys_get_temp_dir(),'margin-left'=>0,
+					'margin-right'=>0,
+					'margin-top'=>0,
+					'margin-bottom'=>0,
+					'print-media-type',
+					'disable-smart-shrinking',
+					
+			));
 			
+			$wkhtmltopdf->setOptions(array('encoding'=>'iso-8859-1'));
+			
+			//var_dump($TParam,$file);
 	        $wkhtmltopdf->setTitle($TParam[$file]['title']);
 			$wkhtmltopdf->setOrientation($TParam[$file]['orientation']); //TODO config
 	        $wkhtmltopdf->setUrl($filename);
 			$wkhtmltopdf->_bin = !empty($conf->global->ABRICOT_WKHTMLTOPDF_CMD) ? $conf->global->ABRICOT_WKHTMLTOPDF_CMD : 'wkhtmltopdf';
-	        $wkhtmltopdf->output(Wkhtmltopdf::MODE_DOWNLOAD,$model.'.pdf');
+			$wkhtmltopdf->output(Wkhtmltopdf::MODE_DOWNLOAD,$model.'.pdf');
 			
 	    } catch (Exception $e) {
 	        echo $e->getMessage();
